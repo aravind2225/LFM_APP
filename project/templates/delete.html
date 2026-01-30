@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='delete.css')}}">
+    <title>Delete Logs</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class="header">You can only delete the log files you've Uploaded</h2>
+    {% include "_flashes.html" %}
+    <div class="table-view">
+        <table border="1">
+            <tr>
+                <th>File ID</th>
+                <th>File Name</th>
+            </tr>
+
+            {% for file in files %}
+            <tr>
+                <td>{{ file.file_id }}</td>
+                <td>{{ file.original_name}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <form method="post">
+            <label>Enter the File id to delete</label>
+            <input type="number" name="file_id"><br>
+            <button type="submit">Delete</button>
+        </form>
+
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+    <!-- <div class="delete-input">
+        
+    </div> -->
+
+</body>
+
+</html>

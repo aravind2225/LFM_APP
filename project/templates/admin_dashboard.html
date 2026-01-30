@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_dashboard.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Admin-Dashboard</title>
+</head>
+
+<body>
+    {% include "navbar.html" %}
+    <h2 class="header">Welcome Admin {{ current_user.username }}</h2>
+    <div>{% include "_flashes.html" %}</div>
+    <div class="admin-permissions">
+        <div class="permissions-item">
+            <form action="{{ url_for('files.upload') }}" method="GET">
+                <button>Upload File</button>
+            </form>
+        </div>
+        <div class="permissions-item">
+            <a href="{{ url_for('admin-logs.view_logs') }}">
+                <button>View Logs</button>
+            </a>
+        </div>
+        <div class="permissions-item">
+            <a href="{{ url_for('admin-del.del_files') }}">
+                <button>Delete Files</button>
+            </a>
+        </div>
+
+        <div class="permissions-item">
+            <a href="{{ url_for('admin_users.list_users') }}">
+                <button>Manage Users</button>
+            </a>
+        </div>
+
+        <div class="permissions-item">
+            <a href="{{ url_for('admin_teams.list_teams') }}">
+                <button>Manage Teams</button>
+            </a>
+        </div>
+
+        <div class="permissions-item">
+            <a href="{{url_for('archive-files.list_files')}}">
+                <button>Archive Files</button>
+            </a>
+        </div>
+        <div class="permissions-item">
+            <a href="{{ url_for('admin-security-logs.view_security_logs') }}">
+                <button>Security Logs</button>
+            </a>
+        </div>
+
+        <div class="permissions-item logout">
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        </div>
+
+    </div>
+
+    <div class="admin-dashboard">
+
+        <h4 class="dash-header">Dashboard</h4>
+
+        <div class="admin-dashboard-in">
+            <div class="dash-item">
+                <p>Total Users</p>
+                <div class="stat">{{total_users}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Total Files</p>
+                <div class="stat">{{total_files}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Total Logs</p>
+                <div class="stat">{{total_logs}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Total Errors</p>
+                <div class="stat">{{total_errors}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Last File at</p>
+                <div class="stat time">{{last_file_at}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Total Archives</p>
+                <div class="stat">{{total_archives}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Total Actions</p>
+                <div class="stat">{{total_actions}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Biggest File</p>
+                <div class="stat file-name">{{biggest_file}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Avg Logs<br>Per File</p>
+                <div class="stat time">{{avg_logs_per_file}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Avg Error Logs<br>Per File</p>
+                <div class="stat">{{avg_errors_per_file}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Top Contributor<br>(Team)</p>
+                <div class="stat">{{top_contributor_team}}</div>
+            </div>
+            <div class="dash-item">
+                <p>Top Contributor<br>(User)</p>
+                <div class="stat file-name">{{top_contributor_user}}</div>
+            </div>
+        </div>
+
+        <div class="charts">
+            <div class="pie-chart" style="width: 300px; height: 300px;">
+                <canvas id="teamUploadsPie"></canvas>
+            </div>
+            <div class="line-chart" style="width: 400px; height: 300px;">
+                <canvas id="uploadsLineChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        const teamNames = JSON.parse('{{ team_names | tojson | safe }}');
+        const Uploads = JSON.parse('{{ uploads | tojson | safe }}');
+
+        const ctx = document.getElementById('teamUploadsPie').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: teamNames,
+                datasets: [{
+                    label: 'Total Uploads',
+                    data: Uploads,
+                    backgroundColor: [
+                        '#4CAF50',
+                        '#2196F3',
+                        '#FF9800',
+                        '#9C27B0',
+                        '#F44336',
+                        '#00BCD4'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Team-wise File Upload Distribution'
+                    }
+                }
+            }
+        });
+
+        // ....line chart
+
+        const datesx = JSON.parse('{{ dates | tojson | safe }}');
+        const date_files_county = JSON.parse('{{ date_files_count | tojson | safe }}');
+
+        const cty = document.getElementById('uploadsLineChart').getContext('2d');
+
+        new Chart(cty, {
+            type: 'line',
+            data: {
+                labels: datesx,
+                datasets: [{
+                    label: 'Number of Uploads',
+                    data: date_files_county,
+                    borderColor: '#0EA468',
+                    fill: false,
+                    tension: 0.3,   // smooth curve
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Daily Upload Activity'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Upload Date'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Uploads Count'
+                        },
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

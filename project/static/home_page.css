@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    /* background-color: #2f2e2e; */
+    font-family: "Zalando Sans Expanded", sans-serif;
+}
+
+.navbar {
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    color: white;
+    box-shadow: 0px 2px 2px black;
+    background-color: #2f2e2e;
+    /* padding: 0px 0px; */
+}
+.container-fluid{
+    padding: 0px 40px;
+}
+
+.navbar a {
+    color: white;
+    transition: 0.2s ease;
+}
+
+.navbar .login{
+    /* padding :0px 5px; */
+    border-radius:5px ;
+    background-color: rgb(14, 164, 104);
+    /* color:black; */
+}
+
+.navbar a:hover {
+    color: rgb(14, 164, 104);
+}
+.navbar a:active{
+    color:  rgb(14, 164, 104);
+}
+/* .navbar a:visited{
+    color:  white;
+} */
+.navbar .login:hover{
+    color:black;
+}
+
+.hero-section {
+    padding: 30px;
+    height: 90vh;
+    background-color: #2f2e2e;
+}
+
+.hero-section .hero-row {
+    height: 80vh;
+}
+
+.hero-section .jumbtron {
+    /* width:70%; */
+    height: 80vh;
+    text-align: left;
+    /* margin: auto; */
+    color: white;
+    background-color: transparent;
+    box-shadow: 0px 2px 2px black;
+    border-radius: 5px;
+    padding: 10px;
+    /* display: flex;
+    justify-content: center; */
+}
+
+.hero-section .jumbotron h3 {
+    color: white;
+}
+
+.hero-section .jumbtron h3 span {
+    background-color: rgb(14, 164, 104);
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+.hero-section .jumbtron button {
+    padding: 5px;
+    /* background-color:none ; */
+    background-color: #2f2e2e;
+    /* outline: none; */
+    border-radius: 5px;
+    border: 1px solid white;
+    transition: 0.2s ease;
+    color: white
+}
+
+.hero-section .jumbtron button:hover {
+    background-color: rgb(14, 164, 104);
+    color: black;
+}
+
+
+.hero-cards-section {
+    padding: 30px;
+    height: 500px;
+    /* padding-top: 50px; */
+    background-color: #3a3838;
+
+}
+
+.hero-cards-section .cards-row {
+    padding: 50px 0px;
+}
+
+.hero-cards-section .card-item {
+    text-align: center;
+    color: white;
+    padding: 10px;
+    background-color: transparent;
+    /* margin: 20px; */
+}
+
+.hero-cards-section .card-item h2 {
+    color: rgb(14, 164, 104);
+}
+
+.hero-cards-section .card-item:nth-child(2) {
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+}
+
+.hero-cards-section .desc-content h3 {
+    color: rgb(14, 164, 104)
+}
+
+.hero-cards-section .desc-content li {
+    padding: 5px;
+    color: white;
+}
+
+
+.features {
+    padding: 30px;
+    height: 500px;
+    /* padding-top: 50px; */
+    background-color: #2f2e2e;
+}
+
+.features h2 {
+    text-align: center;
+    color: white;
+    margin: 0;
+}
+
+/* .features .features-row{
+    padding-top: 30px;
+    
+} */
+
+.features .features-row-in{
+   height: calc(500px - 68px);
+}
+
+.features .features-row .feature-item {
+    width: 225px;
+    height: 200px;
+    padding: 10px;
+    background-color: #3a3838;
+    border-radius:10px;
+    box-shadow: 2px 2px 2px black;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: space-around;
+    transition: 0.2s ease;
+
+}
+.features .features-row .feature-item:hover{
+    transform: translateY(-5px);
+}
+
+.features .features-row .feature-item i{
+    color:rgb(14, 164, 104);
+    font-size: 40px;
+}
+
+.features .features-row .feature-item p{
+    color:white;
+    text-align: center;
+}
+
+.features .features-row .feature-item .more{
+    padding:5px;
+    background-color: none;
+    color:white;
+    border-radius: 5px;
+    border: 1px solid white;
+    transition: 0.2s ease;
+}
+.features .features-row .feature-item .more:hover{
+    background-color: rgb(14, 164, 104);
+    color:black;
+}
+
+.footer {
+    padding:30px;
+    color:white;
+     background-color: #2f2e2e;
+     box-shadow: 0px -2px 2px black;
+}
+
+.footer .footer-item a{
+    text-decoration: none;
+    color:white;
+    font-size: 15px;
+    /* transform: scale(0.9); */
+    transition: 0.2s ease;
+}
+
+.footer .footer-item a:hover{
+    color:rgb(14, 164, 104);
+    transform: translateX(5px);
+
+}

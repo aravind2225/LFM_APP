@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Log File</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='upload.css')}}">
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        } */
+
+        .flash-success {
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        .flash-danger {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .flash-info {
+            color: blue;
+            margin-bottom: 10px;
+        }
+
+        /* .container {
+            max-width: 500px;
+        }
+
+        button {
+            margin-top: 10px;
+        } */
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class="header">Upload Log File</h2>
+
+    <div class="contaner">
+
+        
+
+        {% include "_flashes.html" %}
+
+
+        {# ---------- Upload Form ---------- #}
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file">Select file:</label><br><br>
+            <input type="file" name="file" id="file" accept=".csv,.json,.xml,.txt" required>
+            <br>
+            <br>
+            <label>Environment</label><br>
+
+            <select name="environment_code" required>
+                <option value="">Select Environment</option>
+                <option value="DEV">DEV</option>
+                <option value="QA">QA</option>
+                <option value="UAT">UAT</option>
+                <option value="STAGING">STAGING</option>
+                <option value="PROD">PROD</option>
+            </select>
+            <br><br>
+            <button type="submit">Upload</button>
+        </form>
+
+        <br>
+
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+
+    </div>
+
+</body>
+
+</html>

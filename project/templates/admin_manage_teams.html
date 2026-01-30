@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_manage_teams.css')}}">
+    <title>Manage Teams</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class=header>Manage Teams</h2>
+
+    <div class="table-view">
+        <!-- <a href="{{ url_for('admin_users.create_user') }}">Add New User</a> -->
+
+        {% include "_flashes.html" %}
+
+        <table border="1">
+            <tr>
+                <th>Team ID</th>
+                <th>Team Name</th>
+            </tr>
+
+            {% for t in  teams %}
+            <tr>
+                <td>{{ t.team_id }}</td>
+                <td>{{ t.team_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <form method="post" action="{{ url_for('admin_teams.add_teams') }}">
+            <label>You can add a New Team here</label>
+            <input type="text" name="team_name" placeholder="Enter a New Team" required><br>
+            <button type="submit">ADD</button>
+        </form>
+
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+
+</html>

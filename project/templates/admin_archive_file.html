@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_archive_files.css')}}">
+    <title>Archive Files</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class=header>Archive Files</h2>
+
+    <div class="table-view">
+        <!-- <a href="{{ url_for('admin_users.create_user') }}">Add New User</a> -->
+
+        {% include "_flashes.html" %}
+
+        <table border="1">
+            <tr>
+                <th>File ID</th>
+                <th>File Name</th>
+                <th>Upload By</th>
+                <th>Uploaded on</th>
+                <th>Is Archived</th>
+                <th>Action</th>
+            </tr>
+
+            {% for f in  files%}
+            <tr>
+                <td>{{ f.file_id }}</td>
+                <td>{{ f.original_name }}</td>
+                <td>{{ f.username }}</td>
+                <td>{{ f.dt }}</td>
+                <td>{{ f.is_archived}}</td>
+                <td class="actions">
+                    <form method="POST" action="{{ url_for('archive-files.archive', file_id=f.file_id) }}">
+                        <button type="submit">
+                            {{ "Unarchive" if f.is_archived else "Archive" }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+
+</html>

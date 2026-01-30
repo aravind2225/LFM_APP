@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #2f2e2e;
+    font-family: "Zalando Sans Expanded", sans-serif;
+}
+
+.header {
+    color: white;
+    text-align: center;
+    margin: 0px;
+    padding: 10px 0px;
+}
+
+.permissions {
+    background-color: #2f2e2e;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.permissions .permissions-item button {
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(14, 164, 104);
+}
+
+.delete {
+    background-color: #2f2e2e;
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    gap: 20px;
+}
+
+.delete a {
+    background-color: rgb(234, 77, 77);
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.delete form button {
+    padding: 5px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(234, 77, 77);
+}
+
+.dashboard {
+    /* display: flex;
+    justify-content: space-evenly; */
+    display: grid;
+    grid-template-columns: 200px 200px 200px 200px;
+    padding: 30px;
+    row-gap: 30px;
+    justify-content: space-evenly;
+}
+
+.dashboard .dash-item {
+    padding: 10px;
+    color: white;
+    background-color: #3a3838;
+    border-radius: 10px;
+    box-shadow: 0px 0px 3px black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.2s ease;
+}
+
+.dashboard .dash-item:hover {
+    transform: scale(1.05);
+}
+
+.dashboard .dash-item .stat {
+    color: rgb(14, 164, 104);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.dashboard .dash-item .time {
+    font-size: 12px;
+}
+
+.dashboard .dash-item div {
+    background-color: #3a3838;
+    text-align: center;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='profile.css')}}"> <title>Profile</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class="header">Your Profile</h2>
+    {% include "_flashes.html" %}
+    <div class="table-view">
+        <table>
+            <!-- <tr>
+                <td class="head">User ID</td>
+                <td>{{user_info.user_id}}</td>
+            </tr> -->
+
+            <tr>
+                <td class="head">User Name</td>
+                <td>{{user_info.username}}</td>
+            </tr>
+            <tr>
+                <td class="head">First Name</td>
+                <td>{{user_info['first_name']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Last Name</td>
+                <td>{{user_info['last_name']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Phone Number</td>
+                <td>{{user_info['phone_no']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Email</td>
+                <td>{{user_info['email']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Gender</td>
+                <td>{{user_info['gender']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Current Role</td>
+                <td >{{user_info['role_name']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Current Team</td>
+                <td>{{user_info['team_name']}}</td>
+            </tr>
+            <tr>
+                <td class="head">Created At</td>
+                <td>{{user_info['created_at']}}</td>
+            </tr>
+        </table>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>

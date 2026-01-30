@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #2f2e2e;
+    font-family: "Zalando Sans Expanded", sans-serif;
+}
+
+.header {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    margin: 0px;
+}
+
+.contaner {
+    background-color: #2f2e2e;
+    margin: 0px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.contaner form {
+    background-color: #3a3838;
+    box-shadow: 0px 0px 5px black;
+    border-radius: 10px;
+    padding: 10px
+}
+
+.contaner form label,
+.contaner form #file {
+    background-color: #3a3838;
+    color: white;
+    border-radius: 10px;
+}
+
+.contaner form select {
+    color: white;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid grey
+}
+
+.contaner form button {
+    color: black;
+    background-color: none;
+    border-radius: 5px;
+    padding: 5px;
+    outline: none;
+    border: none;
+    transition: 0.2s ease;
+    color: white;
+}
+
+.contaner form button:hover {
+    background-color: rgb(14, 164, 104);
+    /* border: 1px solid grey; */
+    color: black;
+}
+
+.contaner a {
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: rgb(14, 164, 104);
+    color: black;
+    transition: 0.2s ease;
+}
+
+.contaner a:hover {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}

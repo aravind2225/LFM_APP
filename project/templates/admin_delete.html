@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_delete.css')}}">
+    <title>Delete Logs</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class="header">You are Admin, You Can delete anything file in our DB</h2>
+    {% include "_flashes.html" %}
+    <div class="main-del">
+        <br>
+        <div class="table-view">
+            <h3>Files You've Uploaded</h3>
+
+            <table border="1" cellpadding="6">
+                <tr>
+                    <th>File ID</th>
+                    <th>File Name</th>
+                    <th>Uploaded By</th>
+                </tr>
+
+                {% for file in files %}
+                <tr>
+                    <td>{{ file.file_id }}</td>
+                    <td>{{ file.original_name}}</td>
+                    <td>{{file.uname}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <form method="post">
+                <label>Enter the File id you want to delete</label><br>
+                <input type="number" name="file_id"><br>
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        <br>
+        <br>
+        <div class="table-view">
+            <h3>Files Uploaded by your employees/users</h3>
+            <!-- {% include "_flashes.html" %} -->
+            <table border="1" cellpadding="6">
+                <tr>
+                    <th>File ID</th>
+                    <th>File Name</th>
+                    <th>Uploaded By</th>
+                </tr>
+
+                {% for file in all_files %}
+                <tr>
+                    <td>{{ file.file_id }}</td>
+                    <td>{{ file.original_name}}</td>
+                    <td>{{file.uname}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <form method="post">
+                <label>Enter the File id you want to delete</label><br>
+                <input type="number" name="global_file_id"><br>
+                <button type="submit">Delete</button>
+            </form>
+
+        </div>
+
+
+
+        <div class="back">
+            <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+
+</html>

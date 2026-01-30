@@ -1,0 +1,34 @@
+<style>
+  /* .flash-container {
+      margin-bottom: 15px;
+  } */
+  .flash {
+      padding: 10px;
+      border-radius: 4px;
+      /* margin-bottom: 8px; */
+  }
+  .flash-success {
+      background-color: #e6fffa;
+      color: #065f46;
+  }
+  .flash-danger {
+      background-color: #fee2e2;
+      color: #991b1b;
+  }
+  .flash-info {
+      background-color: #e0f2fe;
+      color: #075985;
+  }
+</style>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}

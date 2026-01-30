@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_security_logs.css')}}">
+    <title>Admin Security Logs</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h2 class="header">These are the total Operations Made in our system till now</h2>
+    <!-- <br> -->
+    <div class="table-view">
+    <table border="1" cellpadding="6">
+        <tr>
+            <th>Action ID</th>
+            <th>Performed By user_id</th>
+            <th>Action Type</th>
+            <th>Performed At</th>
+        </tr>
+
+        {% for audit in audits %}
+        <tr>
+            <td>{{ audit.action_id }}</td>
+            <td>{{ audit.user_id }}</td>
+            <td>{{ audit.action_type }}</td>
+            <td>{{ audit.action_time }}</td>
+        </tr>
+        {% endfor %}
+    </table> 
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>   
+</body>
+</html>

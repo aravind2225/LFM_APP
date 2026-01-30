@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #2f2e2e;
+    font-family: "Zalando Sans Expanded", sans-serif;
+}
+
+body {
+    box-sizing: border-box;
+}
+
+.header {
+    color: white;
+    text-align: center;
+    margin: 0px;
+    padding: 10px 0px;
+}
+
+.admin-permissions {
+    padding: 20px;
+    height: 90vh;
+    width: 200px;
+    background-color: #3a3838;
+    position: fixed;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px;
+    /* background-color: ; */
+}
+
+.admin-permissions .permissions-item,
+.admin-permissions .permissions-item form,
+.admin-permissions .permissions-item a {
+    background-color: #3a3838;
+}
+
+.admin-permissions .permissions-item button {
+    padding: 5px;
+    border: none;
+    outline: none;
+    background-color: rgb(14, 164, 104);
+    border: 1px solid rgb(14, 164, 104);
+    border-radius: 5px;
+    width: 100%;
+    transition: 0.2s ease;
+    text-align: left;
+}
+
+.admin-permissions .logout {
+    padding: 5px;
+    border: 1px solid rgb(14, 164, 104);
+    outline: none;
+    background-color: rgb(14, 164, 104);
+    border-radius: 5px;
+    width: 100%;
+    transition: 0.2s ease;
+    text-align: left;
+
+}
+
+.admin-permissions .logout a {
+    text-decoration: none;
+    background-color: rgb(14, 164, 104);
+    color: black;
+}
+
+.admin-permissions .permissions-item button:hover {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.admin-permissions .logout:hover {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.admin-permissions .logout:hover>a {
+    background-color: transparent;
+    color: white
+}
+
+/* body{
+    position: relative;
+} */
+
+.admin-dashboard {
+    position: absolute;
+    left: 200px;
+    padding: 20px;
+    right: 0;
+    /* flex: 1; */
+    /* width: 100%; */
+    /* box-sizing: border-box; */
+
+}
+
+.admin-dashboard .dash-header {
+    color: white;
+    text-align: center;
+}
+
+
+.admin-dashboard-in {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    justify-content: space-evenly;
+    row-gap: 30px;
+
+}
+
+.admin-dashboard-in .dash-item,
+.admin-dashboard-in .dash-item p {
+    background-color: #3a3838;
+}
+
+
+.admin-dashboard-in .dash-item {
+    padding: 10px;
+    /* display: flex;
+    flex-direction: column; */
+    box-shadow: 0px 0px 2px black;
+    border-radius: 5px;
+    transition: 0.2s ease;
+}
+
+.admin-dashboard-in .dash-item:hover {
+    box-shadow: 0px 0px 5px rgb(14, 164, 104);
+
+}
+
+.admin-dashboard-in .dash-item p {
+    color: white;
+    /* font-weight: bold; */
+    text-align: center;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    border-bottom: 2px solid rgb(14, 164, 104);
+    ;
+}
+
+.admin-dashboard-in .dash-item .stat {
+    color: rgb(14, 164, 104);
+    background-color: #3a3838;
+    font-weight: bold;
+    text-align: center;
+    /* font-size: 18px; */
+
+}
+
+.admin-dashboard-in .dash-item .file-name {
+    font-size: 14px;
+}
+
+.admin-dashboard-in .dash-item .time {
+    font-size: 14px;
+}
+
+.charts {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: center;
+}
+.charts .pie-chart,
+.charts .line-chart {
+    display: flex;
+    align-items: center;
+    
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static',filename='admin_view_logs.css')}}">
+    <title>Admin View Logs</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <h2 class="header">Admin - View Logs</h2>
+    <div class="filters">
+    <form method="GET">
+        <label>Filter By</label>
+
+        <select name="ownership">
+            <option value="me" {% if filters.ownership=="me" %}selected{% endif %}>
+                Uploaded by me
+            </option>
+            <option value="team" {% if filters.ownership=="team" %}selected{% endif %}>
+                By team
+            </option>
+        </select>
+
+        <select name="team">
+            <option value="">All Teams</option>
+            {% for t in teams %}
+            <option value="{{ t }}" {% if filters.team==t %}selected{% endif %}>
+                {{ t }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <select name="severity">
+            <option value="">All Severities</option>
+            {% for s in severities %}
+            <option value="{{ s }}" {% if filters.severity==s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for c in categories %}
+            <option value="{{ c }}" {% if filters.category==c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="environment">
+            <option value="">All Environments</option>
+            {% for e in environments %}
+            <option value="{{ e }}" {% if filters.environment==e %}selected{% endif %}>{{ e }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Apply Filters</button>
+    </form>
+    </div>
+    <div class="table-view">
+        <table border="1" cellpadding="6">
+            <tr>
+                <th>Time</th>
+                <th>Severity</th>
+                <th>Category</th>
+                <th>Env</th>
+                <th>Message</th>
+                <th>Uploaded By</th>
+                <th>File</th>
+                <th>Team</th>
+            </tr>
+
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.log_timestamp }}</td>
+                <td>{{ log.severity_code }}</td>
+                <td>{{ log.category_name }}</td>
+                <td>{{ log.environment_code }}</td>
+                <td>{{ log.message_line }}</td>
+                <td>{{ log.uploaded_by }}</td>
+                <td>{{ log.original_name }}</td>
+                <td>{{ log.team_uploaded }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+
+</html>

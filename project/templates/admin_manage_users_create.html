@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Create / Edit User</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_manage_users_create.css') }}">
+</head>
+
+<body>
+
+  {% include "navbar.html" %}
+
+  <div class="register">
+    <div class="register-in">
+
+      <h2 class="header">
+        {{ "Create User" if mode == "create" else "Edit User" }}
+      </h2>
+
+      {% include "_flashes.html" %}
+
+      <form method="POST">
+
+        <input name="first_name" placeholder="First Name" value="{{ user.first_name if user else '' }}" required><br>
+
+        <input name="last_name" placeholder="Last Name" value="{{ user.last_name if user else '' }}"><br>
+
+        <input name="phone_no" placeholder="Phone" value="{{ user.phone_no if user else '' }}" required><br>
+
+        <input name="email" placeholder="Email" value="{{ user.email if user else '' }}" required><br>
+
+        <input name="username" placeholder="Username" value="{{ user.username if user else '' }}" required><br>
+
+        <!-- Gender -->
+        <div class="select">
+          <label>Gender</label>
+          <select name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="Male" {% if user and user.gender=="Male" %}selected{% endif %}>
+              Male
+            </option>
+            <option value="Female" {% if user and user.gender=="Female" %}selected{% endif %}>
+              Female
+            </option>
+          </select>
+        </div>
+        <br>
+
+        <!-- Password + Role ONLY for CREATE -->
+        {% if mode == "create" %}
+        <input type="password" name="password" placeholder="Password" required><br>
+
+        <div class="select">
+          <label>Choose Role</label>
+          <select name="role_id" required>
+            <option value="">Select Role</option>
+            <option value="1">Admin</option>
+            <option value="2">End User</option>
+          </select>
+        </div>
+        <br>
+        {% endif %}
+
+        <!-- Team (CREATE + EDIT) -->
+        <div class="select">
+          <label>Choose Team</label>
+          <select name="team_id" required>
+            <option value="">Select Team</option>
+            {% for team in team_names %}
+            <option value="{{ team.team_id }}" {% if current_team_id and team.team_id==current_team_id %} selected {%
+              endif %}>
+              {{ team.team_name }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <br>
+
+        <button type="submit">Save</button>
+
+      </form>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

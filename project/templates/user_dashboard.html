@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='user_dashboard.css')}}">
+    <title>User-Dashboard</title>
+</head>
+
+<body>
+    {%include 'navbar.html'%}
+   
+    <h2 class="header">Hi {{ current_user.username }}, how are you?</h2>
+     <div>{% include "_flashes.html" %}</div>
+    <div class="permissions">
+        <div class="permissions-item">
+            <form action="{{ url_for('files.upload') }}" method="GET">
+                <button>Upload File</button>
+            </form>
+        </div>
+
+        <div class="permissions-item">
+            <a href="{{ url_for('logs.view_logs') }}">
+                <button>View Logs</button>
+            </a>
+        </div>
+        <div class="permissions-item">
+            <a href="{{ url_for('del.del_files') }}">
+                <button>Delete Logs</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="dash-item total-files-self">
+            <div>Total Files<br>You've Uploaded</div>
+            <div class="stat">{{files_self}}</div>
+        </div>
+        <div class="dash-item total-logs-self">
+            <div>Total Logs<br>You've Uploaded</div>
+            <div class="stat">{{logs_self}}</div>
+        </div>
+        <div class="dash-item total-errors-self">
+            <div>Total Errors</div>
+            <div class="stat">{{errors_self}}</div>
+        </div>
+        <div class="dash-item last-file-uploaded-self">
+            <div>Last File Uploaded</div>
+            <div class="stat time">{{last_uploaded}}</div>
+        </div>
+        <div class="dash-item total-files-team">
+            <div>Total Files<br>by Your Team</div>
+            <div class="stat">{{files_team}}</div>
+        </div>
+        <div class="dash-item total-logs-team">
+            <div>Total logs<br>by your Team</div>
+            <div class="stat">{{logs_team}}</div>
+        </div>
+        <div class="dash-item total-errors-team">
+            <div>Total Errors<br>by your team</div>
+            <div class="stat">{{errors_team}}</div>
+        </div>
+        <div class="dash-item total-archeives-team">
+            <div>Archeived<br>files</div>
+            <div class="stat">{{archives_team}}</div>
+        </div>
+
+    </div>
+
+
+    <div class="delete">
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+    </div>
+</body>
+
+</html>
