@@ -16,26 +16,29 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Logging Tech</a>
+    <div class="nav-out">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Logging Tech</a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="{{ url_for('dashboard') }}">Home</a>
-                    <a class="nav-link" href="#features">Features</a>
-                    <a class="nav-link" href="#about-us">About Us</a>
-                    <a class="nav-link login" href="{{ url_for('auth.login') }}">Login</a>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ms-auto">
+                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="#features">Features</a>
+                        <a class="nav-link" href="#about-us">About Us</a>
+                        <a class="nav-link login" href="{{ url_for('auth.login') }}">Login</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 
-    <section class="hero-section">
+    <section class="hero-section" id="home">
         <div class="hero-row d-flex flex-row justify-content-between align-items-center">
             <div class="jumbtron d-flex flex-column justify-content-around">
                 {% include "_flashes.html" %}

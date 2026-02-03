@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{url_for('static',filename='admin_dashboard.css')}}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Admin-Dashboard</title>
@@ -11,57 +14,65 @@
 
 <body>
     {% include "navbar.html" %}
-    <h2 class="header">Welcome Admin {{ current_user.username }}</h2>
     <div>{% include "_flashes.html" %}</div>
     <div class="admin-permissions">
         <div class="permissions-item">
+            <form action="{{ url_for('profile.view_profile') }}" method="GET">
+                <button> <i class="fa-brands fa-black-tie"></i> {{current_user.username}}</button>
+            </form>
+        </div>
+
+        <div class="permissions-item">
             <form action="{{ url_for('files.upload') }}" method="GET">
-                <button>Upload File</button>
+                <button> <i class="fa-solid fa-upload"></i> Upload File</button>
             </form>
         </div>
         <div class="permissions-item">
             <a href="{{ url_for('admin-logs.view_logs') }}">
-                <button>View Logs</button>
+                <button> <i class="fa-solid fa-file"></i> View Logs</button>
             </a>
         </div>
         <div class="permissions-item">
             <a href="{{ url_for('admin-del.del_files') }}">
-                <button>Delete Files</button>
+                <button><i class="fa-solid fa-circle-xmark"></i> Delete Files</button>
             </a>
         </div>
 
         <div class="permissions-item">
             <a href="{{ url_for('admin_users.list_users') }}">
-                <button>Manage Users</button>
+                <button> <i class="fa-solid fa-user"></i> Manage Users</button>
             </a>
         </div>
 
         <div class="permissions-item">
             <a href="{{ url_for('admin_teams.list_teams') }}">
-                <button>Manage Teams</button>
+                <button> <i class="fa-solid fa-people-group"></i> Manage Teams</button>
             </a>
         </div>
 
         <div class="permissions-item">
             <a href="{{url_for('archive-files.list_files')}}">
-                <button>Archive Files</button>
+                <button> <i class="fa-solid fa-box-archive"></i> Archive Files</button>
             </a>
         </div>
         <div class="permissions-item">
             <a href="{{ url_for('admin-security-logs.view_security_logs') }}">
-                <button>Security Logs</button>
+                <button> <i class="fa-solid fa-lock"></i> Security Logs</button>
             </a>
         </div>
 
         <div class="permissions-item logout">
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
+            <a href="{{ url_for('auth.logout') }}">
+                <button><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+            </a>
         </div>
 
     </div>
 
     <div class="admin-dashboard">
+        <h2 class="header">Admin Dashboard</h2>
 
-        <h4 class="dash-header">Dashboard</h4>
+        <!-- <h4 class="dash-header">Dashboard</h4> -->
 
         <div class="admin-dashboard-in">
             <div class="dash-item">
