@@ -25,7 +25,7 @@ This is a learning-oriented, lightweight log management system inspired by tools
 | Layer | Technology |
 |-------|------------|
 | Backend | Python, Flask |
-| Frontend | Jinja2 (Flask templating), HTML, CSS |
+| Frontend | Jinja2 (Flask templating), HTML, CSS, Bootstrap|
 | Database | PostgreSQL (hosted on Supabase) |
 | Hosting | Render (Application) |
 | Querying | SQL scripts with PostgreSQL |
