@@ -153,6 +153,13 @@ CREATE TABLE log_entries (
     created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE user_issues (
+	issue_id BIGSERIAL PRIMARY KEY,
+	user_id bigint references users(user_id) on delete cascade,
+	issue_message text not null,
+	reported_at timestamptz default now()
+);
+
 
 CREATE TABLE audit_trail (
     action_id    BIGSERIAL PRIMARY KEY,
@@ -224,4 +231,23 @@ EXECUTE FUNCTION audit_log_trigger();
 
 select * from users;
 select * from teams;
+select * from user_roles;
+select * from user_issues;
+select * from log_categories;
+select * from log_entries;
+select * from raw_files;
+select * from teams;
+select * from log_severities;
+select * from user_teams;
 
+
+-- select t.team_name  from raw_files rf join teams t on t.team_id=rf.team_id group by t.team_name order by count(*) desc
+-- select ls.severity_code,count(le.log_id) as nlog from log_entries le join log_severities ls on le.severity_id=ls.severity_id group by ls.severity_code order by nlog desc
+
+-- select u.username,count(rf.file_id) as fcount from raw_files rf join users u on rf.uploaded_by=u.user_id where uploaded_at > NOW() - INTERVAL '7 days' group by u.username having count(rf.file_id)>3;
+
+select le.log_id, rf.original_name, le.log_timestamp::timestamp(0) as ts,ls.severity_code, le.message_line 
+from log_entries le 
+join raw_files rf on le.file_id=rf.file_id 
+join log_severities ls on le.severity_id=ls.severity_id
+where category_id=2 and created_at > now() - interval '7 days';
