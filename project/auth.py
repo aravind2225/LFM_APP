@@ -224,7 +224,7 @@ def logout():
     flash("You are logged out", "info")
     return redirect(url_for("index"))
 
-from flask_login import login_required, current_user, logout_user
+# from flask_login import login_required, current_user, logout_user
 
 
 # @auth_bp.route("/delete-account", methods=["POST"])
