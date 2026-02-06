@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #2f2e2e;
+    font-family: "Zalando Sans Expanded", sans-serif;
+}
+
+.report-issue{
+    padding:30px;
+    text-align:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:30px
+
+}
+
+.report-issue form{
+    width: 300px; 
+    display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.report-issue form h3{
+    color:rgb(14, 164, 104);
+}
+.report-issue form label{
+    color:white;
+}
+.report-issue form textarea{
+    padding: 10px;
+    /* box-shadow: ; */
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    border: 1px solid grey;
+
+}
+.report-issue form textarea:focus{
+    border: 1px solid rgb(14, 164, 104);
+}
+.report-issue form button{
+    width: 100px;
+    padding: 5px;
+    border-radius: 10px;
+    outline: none;
+    background-color: rgb(14, 164, 104);
+    border: 1px solid rgb(14, 164, 104);
+    transition: 0.2s ease;
+}
+.report-issue form button:hover{
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+}
+
+.report-issue a {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgb(14, 164, 104);
+    border: none;
+    outline: none;
+    transition: 0.2s ease;
+    text-decoration: none;
+    color: black;
+}
+
+.report-issue a:hover {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}

@@ -94,3 +94,14 @@
     background-color: #3a3838;
     text-align: center;
 }
+
+.report-issue {
+    text-align: center;
+    padding: 30px;
+    color: white
+}
+
+.report-issue a {
+    text-decoration: none;
+    color: rgb(14, 164, 104);
+}

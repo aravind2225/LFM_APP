@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='report_issue.css')}}">
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="report-issue">
+        <form method="post">
+            <h3>Report Issue</h3>
+            {% include "_flashes.html" %}
+            <label>Tell us what's your issue</label><br>
+            <textarea id="message" name="message" rows="5" cols="30" placeholder="Enter your issue here..."></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>

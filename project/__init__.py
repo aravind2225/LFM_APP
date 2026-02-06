@@ -18,6 +18,8 @@ from project.admin_manage_users import admin_manage_users_bp
 from project.admin_archive_files import archive_file_bp
 from project.admin_manage_teams import admin_manage_teams_bp
 from project.profile import user_view_profile_bp
+from project.report_issue import user_report_issue_bp
+from project.view_issue import view_issues_bp
 
 
 
@@ -47,6 +49,8 @@ def create_app():
     app.register_blueprint(archive_file_bp)
     app.register_blueprint(admin_manage_teams_bp)
     app.register_blueprint(user_view_profile_bp)
+    app.register_blueprint(user_report_issue_bp)
+    app.register_blueprint(view_issues_bp)
 
     @app.route("/")
     def index():

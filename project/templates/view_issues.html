@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='view_issues.css')}}">
+    <title>Archive Files</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <h2 class=header>Issues Reported by Users</h2>
+
+    <div class="table-view">
+        <!-- <a href="{{ url_for('admin_users.create_user') }}">Add New User</a> -->
+
+        {% include "_flashes.html" %}
+
+        <table border="1">
+            <tr>
+                <th>Issue ID</th>
+                <th>Reported by User ID</th>
+                <th>User Name</th>
+                <th>Issue</th>
+                <th>Reported At</th>
+            </tr>
+
+            {% for r in  reports %}
+            <tr>
+                <td>{{ r.issue_id }}</td>
+                <td>{{ r.user_id }}</td>
+                <td>{{r.username}}</td>
+                <td>{{ r.issue_message }}</td>
+                <td>{{ r.reported_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+
+</body>
+
+</html>
