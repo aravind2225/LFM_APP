@@ -14,7 +14,6 @@
 
 <body>
     {% include "navbar.html" %}
-    <div>{% include "_flashes.html" %}</div>
     <div class="admin-permissions">
         <div class="permissions-item">
             <form action="{{ url_for('profile.view_profile') }}" method="GET">
@@ -63,7 +62,7 @@
 
         <div class="permissions-item">
             <a href="{{ url_for('view-issue.view_issues') }}">
-                <button> <i class="fa-solid fa-lock"></i> View Issues</button>
+                <button> <i class="fa-solid fa-bug"></i> View Issues</button>
             </a>
         </div>
 
@@ -76,6 +75,7 @@
     </div>
 
     <div class="admin-dashboard">
+        <div>{% include "_flashes.html" %}</div>
         <h2 class="header">Admin Dashboard</h2>
 
         <!-- <h4 class="dash-header">Dashboard</h4> -->
@@ -139,6 +139,64 @@
                 <canvas id="uploadsLineChart"></canvas>
             </div>
         </div>
+        <div class="in-analysis">
+            <div class="severity-analytics">
+                <h6>Severity Analytics (No.of Logs per Severity-Level)</h6>
+                <table border="1">
+                    <tr>
+                        <th>Severity Level</th>
+                        <th>No.of Logs</th>
+                    </tr>
+
+                    {% for slog in slogs %}
+                    <tr>
+                        <td>{{ slog.severity_code }}</td>
+                        <td>{{ slog.nlog}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="severity-analytics">
+                <h6>Users Uploading More than 3 files last week</h6>
+                <table border="1">
+                    <tr>
+                        <th>Username</th>
+                        <th>No.of Files</th>
+                    </tr>
+
+                    {% for muser in musers %}
+                    <tr>
+                        <td>{{ muser.username }}</td>
+                        <td>{{ muser.fcount}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="in-analysis">
+            <div class="severity-analytics">
+                <h6>Security logs from last 7 days</h6>
+                <table border="1">
+                    <tr>
+                        <th>Log ID</th>
+                        <th>File Name</th>
+                        <th>Log Timestamp</th>
+                        <th>Severity</th>
+                        <th>Log Message</th>
+                    </tr>
+
+                    {% for seclog in seclogs %}
+                    <tr>
+                        <td>{{ seclog.log_id }}</td>
+                        <td>{{ seclog.original_name}}</td>
+                        <td>{{ seclog.ts}}</td>
+                        <td>{{ seclog.severity_code}}</td>
+                        <td>{{ seclog.message_line}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
     <script>
         const teamNames = JSON.parse('{{ team_names | tojson | safe }}');
@@ -155,9 +213,9 @@
                     data: Uploads,
                     backgroundColor: [
                         '#4CAF50',
-                        '#2196F3',
-                        '#FF9800',
-                        '#9C27B0',
+                        '#3f9f9f',
+                        '#93E9BE',
+                        '#125066 ',
                         '#F44336',
                         '#00BCD4'
                     ],

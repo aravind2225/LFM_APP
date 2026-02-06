@@ -34,42 +34,42 @@
 
     <div class="dashboard">
         <div class="dash-item total-files-self">
-            <div>Total Files<br>You've Uploaded</div>
+            <div class="dash-item-header">Total Files<br>You've Uploaded</div>
             <div class="stat">{{files_self}}</div>
         </div>
         <div class="dash-item total-logs-self">
-            <div>Total Logs<br>You've Uploaded</div>
+            <div class="dash-item-header">Total Logs<br>You've Uploaded</div>
             <div class="stat">{{logs_self}}</div>
         </div>
         <div class="dash-item total-errors-self">
-            <div>Total Errors</div>
+            <div class="dash-item-header">Total Errors</div>
             <div class="stat">{{errors_self}}</div>
         </div>
         <div class="dash-item last-file-uploaded-self">
-            <div>Last File Uploaded</div>
+            <div class="dash-item-header">Last File Uploaded</div>
             <div class="stat time">{{last_uploaded}}</div>
         </div>
         <div class="dash-item total-files-team">
-            <div>Total Files<br>by Your Team</div>
+            <div class="dash-item-header">Total Files<br>by Your Team</div>
             <div class="stat">{{files_team}}</div>
         </div>
         <div class="dash-item total-logs-team">
-            <div>Total logs<br>by your Team</div>
+            <div class="dash-item-header">Total logs<br>by your Team</div>
             <div class="stat">{{logs_team}}</div>
         </div>
         <div class="dash-item total-errors-team">
-            <div>Total Errors<br>by your team</div>
+            <div class="dash-item-header">Total Errors<br>by your team</div>
             <div class="stat">{{errors_team}}</div>
         </div>
         <div class="dash-item total-archeives-team">
-            <div>Archeived<br>files</div>
+            <div class="dash-item-header">Archeived<br>files</div>
             <div class="stat">{{archives_team}}</div>
         </div>
 
     </div>
 
     <div class="report-issue">
-        Struck elsewhere, <a href="{{url_for('report-issue.report_issue')}}">Report an issue</a> to admin team.
+        Struck elsewhere ?? <a href="{{url_for('report-issue.report_issue')}}">Report an issue</a> to admin team.
     </div>
 
 

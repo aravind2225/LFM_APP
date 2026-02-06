@@ -14,7 +14,7 @@
             <h3>Report Issue</h3>
             {% include "_flashes.html" %}
             <label>Tell us what's your issue</label><br>
-            <textarea id="message" name="message" rows="5" cols="30" placeholder="Enter your issue here..."></textarea><br>
+            <textarea id="message" name="message" rows="5" cols="30" placeholder="Enter your issue here..." required></textarea><br>
             <button type="submit">Submit</button>
         </form>
         <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>

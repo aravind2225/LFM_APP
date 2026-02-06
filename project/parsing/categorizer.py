@@ -36,7 +36,8 @@ def resolve_category(message: str) -> str:
         "invalid token",
         "permission denied",
         "password",
-        "brute force"
+        "brute force",
+        "clean job startup"
     ]):
         return "SECURITY"
 
@@ -47,7 +48,12 @@ def resolve_category(message: str) -> str:
         "stack trace",
         "null pointer",
         "runtime error",
-        "application error"
+        "application",
+        "shutdown completed",
+        "rate limit",
+        "database",
+        "application starting",
+
     ]):
         return "APPLICATION"
 

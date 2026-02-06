@@ -93,6 +93,7 @@ body {
     grid-template-columns: repeat(4, 200px);
     justify-content: space-evenly;
     row-gap: 30px;
+    height: 75vh;
 
 }
 
@@ -157,3 +158,37 @@ body {
     align-items: center;
 
 }
+.in-analysis{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+.severity-analytics{
+    padding: 30px;
+}
+
+.severity-analytics table td,
+.severity-analytics table th {
+    padding: 10px;
+    border: 1px solid grey;
+    /* color:white */
+}
+.severity-analytics table td{
+    color: white;
+}
+.severity-analytics th {
+    background-color: rgb(14, 164, 104);
+    color: black;
+} 
+.severity-analytics h6{
+    color: white;
+}
+/* .user-analytics{
+    padding: 30px;
+}
+.user-analytics table td{
+     color: white;
+} */

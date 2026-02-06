@@ -94,6 +94,10 @@
     background-color: #3a3838;
     text-align: center;
 }
+/* .dashboard .dash-item .dash-item-header{
+    border-bottom: 2px solid rgb(14, 164, 104);
+    width: 100%;
+} */
 
 .report-issue {
     text-align: center;

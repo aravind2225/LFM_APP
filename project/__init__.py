@@ -74,8 +74,8 @@ def create_app():
             biggest_file=db.execute(text("select original_name from raw_files where file_size_bytes=(select max(file_size_bytes) from raw_files where is_archived=false)")).scalar()
             avg_logs_per_file=db.execute(text("select round(count(*)::decimal/nullif((count( distinct rf.file_id)),0),2) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.is_archived=false")).scalar()
             avg_errors_per_file=db.execute(text("select round(count(*)::decimal/nullif((count( distinct rf.file_id)),0),2) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.is_archived=false and le.severity_id=4")).scalar()
-            top_contributor_team=db.execute(text("select t.team_name  from raw_files rf join teams t on t.team_id=rf.team_id group by t.team_name order by count(*)")).scalar()
-            top_contributor_user=db.execute(text("select u.username  from raw_files rf join users u on u.user_id=rf.uploaded_by group by u.username order by count(*)")).scalar()
+            top_contributor_team=db.execute(text("select t.team_name  from raw_files rf join teams t on t.team_id=rf.team_id group by t.team_name order by count(*) desc")).scalar()
+            top_contributor_user=db.execute(text("select u.username  from raw_files rf join users u on u.user_id=rf.uploaded_by group by u.username order by count(*) desc")).scalar()
             
             ##charts
             files_by_teams=db.execute(text("select t.team_name,count(*) as total_uploads from raw_files rf join teams t on rf.team_id=t.team_id group by t.team_name")).fetchall()
@@ -85,6 +85,24 @@ def create_app():
             files_by_dates=db.execute(text("select date(uploaded_at) as date,count(*) as total_files from raw_files group by date(uploaded_at) order by date(uploaded_at)")).fetchall()
             dates = [row[0].strftime("%Y-%m-%d") for row in files_by_dates]
             date_files_count = [row[1] for row in files_by_dates]
+
+            ##severity analysis.
+            slogs=db.execute(text("select ls.severity_code,count(le.log_id) as nlog from log_entries le join log_severities ls on le.severity_id=ls.severity_id group by ls.severity_code order by nlog desc")).fetchall()
+            
+            ##users_analytics
+            musers=db.execute(text("select u.username,count(rf.file_id) as fcount from raw_files rf join users u on rf.uploaded_by=u.user_id where uploaded_at > NOW() - INTERVAL '7 days' group by u.username having count(rf.file_id)>3;")).fetchall()
+
+            #security_logs_last_week
+            seclogs=db.execute(text(
+                """
+                select le.log_id, rf.original_name, le.log_timestamp::timestamp(0) as ts,ls.severity_code, le.message_line 
+                from log_entries le 
+                join raw_files rf on le.file_id=rf.file_id 
+                join log_severities ls on le.severity_id=ls.severity_id
+                where category_id=2 and created_at > now() - interval '7 days';
+                """
+            )).fetchall()
+
             return render_template(
                 "admin_dashboard.html",
                 total_users=total_users,
@@ -102,7 +120,10 @@ def create_app():
                 team_names=team_names,
                 uploads=uploads,
                 dates=dates,
-                date_files_count=date_files_count
+                date_files_count=date_files_count,
+                slogs=slogs,
+                musers=musers,
+                seclogs=seclogs
                 )
         
         files_self=db.execute(text("select count(*) from raw_files where uploaded_by=:uid and is_archived=false"),{"uid": current_user.id}).scalar()

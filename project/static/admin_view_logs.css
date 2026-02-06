@@ -53,13 +53,13 @@
 
 .table-view th,
 .table-view td {
-    padding: 5px;
+    padding: 3px;
     color: rgb(221, 221, 221);
     /* border: 1px solid grey; */
 }
 
 .table-view td {
-    font-size: 14px;
+    font-size: 12px;
     border: 1px solid grey;
 
 }
