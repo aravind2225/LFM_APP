@@ -140,8 +140,12 @@ CREATE TABLE raw_files (
     format_id         SMALLINT REFERENCES file_formats(format_id),
     is_archived       BOOLEAN DEFAULT FALSE,
     uploaded_at       TIMESTAMPTZ DEFAULT NOW(),
-    environment_id    SMALLINT REFERENCES environments(environment_id)
+    environment_id    SMALLINT REFERENCES environments(environment_id),
+	file_hash		  TEXT NOT NULL
 );
+
+
+create index idx_file_hash on raw_files(file_hash);
 
 CREATE TABLE log_entries (
     log_id          BIGSERIAL PRIMARY KEY,
@@ -239,6 +243,13 @@ select * from raw_files;
 select * from teams;
 select * from log_severities;
 select * from user_teams;
+
+
+
+
+
+
+
 
 
 -- select t.team_name  from raw_files rf join teams t on t.team_id=rf.team_id group by t.team_name order by count(*) desc
