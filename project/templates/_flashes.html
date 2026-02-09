@@ -3,33 +3,46 @@
       margin-bottom: 15px;
   } */
   .flash {
-      padding: 10px;
-      border-radius: 4px;
-      /* margin-bottom: 8px; */
-      text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+    /* margin-bottom: 8px; */
+    text-align: center;
   }
+
   .flash-success {
-      background-color: #e6fffa;
-      color: #065f46;
+    background-color: #e6fffa;
+    color: #065f46;
   }
+
   .flash-danger {
-      background-color: #fee2e2;
-      color: #991b1b;
+    background-color: #fee2e2;
+    color: #991b1b;
   }
+
   .flash-info {
-      background-color: #e0f2fe;
-      color: #075985;
+    background-color: #e0f2fe;
+    color: #075985;
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  $(document).ready(function () {
+    setTimeout(function () {
+      $(".flash-container").fadeOut("slow");
+    }, 3000); // 3 seconds
+  });
+</script>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-container">
-      {% for category, message in messages %}
-        <div class="flash flash-{{ category }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+{% if messages %}
+<div class="flash-container">
+  {% for category, message in messages %}
+  <div class="flash flash-{{ category }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
 {% endwith %}
