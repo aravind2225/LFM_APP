@@ -14,29 +14,7 @@ def del_files():
     db = get_db()
 
     if request.method == "POST":
-        file_id = request.form.get('file_id',type=int)
         global_file_id=request.form.get('global_file_id',type=int)
-
-        file_ids=db.execute(
-        text("SELECT file_id FROM raw_files WHERE uploaded_by = :uid"),
-        {"uid": current_user.id}
-        ).scalars().all()
-
-        
-        if file_id in file_ids:
-            db.execute(
-                text("DELETE FROM log_entries WHERE file_id = :file_id"),
-                {"file_id": file_id}
-            )
-            db.execute(
-                text("DELETE FROM raw_files WHERE file_id = :file_id"),
-                {"file_id": file_id}
-            )
-            db.commit()
-        else:
-            flash("Error while deleting the file.", "danger")
-            # return redirect(url_for("admin-del.del_files"))
-        
 
         all_file_ids=db.execute(
         text("SELECT file_id FROM raw_files")
@@ -52,6 +30,8 @@ def del_files():
                 {"file_id": global_file_id}
             )
             db.commit() 
+            flash("File delted succesfully", "success")
+
 
         else:
             flash("File does not exits", "danger")

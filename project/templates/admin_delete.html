@@ -13,34 +13,6 @@
     <h2 class="header">You are Admin, You Can delete anything file in our DB</h2>
     {% include "_flashes.html" %}
     <div class="main-del">
-        <br>
-        <div class="table-view">
-            <h3>Files You've Uploaded</h3>
-
-            <table border="1" cellpadding="6">
-                <tr>
-                    <th>File ID</th>
-                    <th>File Name</th>
-                    <th>Uploaded By</th>
-                </tr>
-
-                {% for file in files %}
-                <tr>
-                    <td>{{ file.file_id }}</td>
-                    <td>{{ file.original_name}}</td>
-                    <td>{{file.uname}}</td>
-                </tr>
-                {% endfor %}
-            </table>
-            <form method="post">
-                <label>Enter the File id you want to delete</label><br>
-                <input type="number" name="file_id" placeholder="Enter the file id to delete"><br>
-                <button type="submit">Delete</button>
-            </form>
-        </div>
-
-        <br>
-        <br>
         <div class="table-view">
             <h3>Files Uploaded by your employees/users</h3>
             <!-- {% include "_flashes.html" %} -->

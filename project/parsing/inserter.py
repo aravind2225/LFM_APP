@@ -18,6 +18,7 @@ def insert_log_entries(db, file_id, entries):
                     (SELECT category_id FROM log_categories WHERE category_name = :cat),
                     :msg
                 )
+                 ON CONFLICT DO NOTHING
             """),
             {
                 "file_id": file_id,
