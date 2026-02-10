@@ -35,7 +35,8 @@ def upload():
     db = get_db()
 
     files = request.files.getlist("files")
-
+    print("fgdf",files) 
+ 
     if not files or files[0].filename == "":
         flash("No files selected", "danger")
         return redirect(request.url)
@@ -86,6 +87,7 @@ def upload():
     # Process each file
     # ==========================================================
     for file in files:
+        print("File I",file)
 
         if not file or file.filename == "":
             continue

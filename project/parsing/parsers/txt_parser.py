@@ -1,7 +1,7 @@
 import re
 
 TIMESTAMP_REGEX = re.compile(
-    r"^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}(?:[.,]\d{3})?"
+    r"^\[?\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}(?:[.,]\d{3})?\]?"
 )
 
 def parse_txt(file_obj):

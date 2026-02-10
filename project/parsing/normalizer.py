@@ -15,12 +15,15 @@ SEVERITIES = {"INFO", "WARN", "ERROR", "DEBUG", "FATAL"}
 LOG_REGEX = re.compile(
     r"""
     ^
-    (?P<ts>\d{4}-\d{2}-\d{2}\s+
+    (?:\[)?
+    (?P<ts>
+        \d{4}-\d{2}-\d{2}\s+
         \d{2}:\d{2}:\d{2}
         (?:[.,]\d{3})?
     )
+    (?:\])?
     \s+
-    (?P<severity>INFO|WARN|ERROR|DEBUG|FATAL)
+    (?P<severity>INFO|WARN|ERROR|DEBUG|FATAL|info|warn|error|debug|fatal)
     \s+
     (?P<message>.+)
     $
@@ -90,7 +93,7 @@ def normalize_entry(entry):
 
         return {
             "timestamp": timestamp,
-            "severity": severity,
+            "severity": severity.upper(),
             "message": message
         }
 

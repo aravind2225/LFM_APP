@@ -21,6 +21,8 @@ from project.profile import user_view_profile_bp
 from project.report_issue import user_report_issue_bp
 from project.view_issue import view_issues_bp
 
+from project.queries import QUERIES
+
 
 
 
@@ -64,44 +66,36 @@ def create_app():
     def dashboard():
         db=get_db()
         if current_user.is_admin():
-            total_users=db.execute(text("select count(*) from users where is_active=true")).scalar()
-            total_files=db.execute(text("select count(*) from raw_files where is_archived=false")).scalar()
-            total_logs=db.execute(text("select count(*) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.is_archived=false")).scalar()
-            total_errors=db.execute(text("select count(*) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.is_archived=false and le.severity_id=4")).scalar()
-            last_file_at=db.execute(text("select coalesce(max(uploaded_at)::timestamp,'2035-01-01 00:00:00+00'::timestamp) from raw_files")).scalar()
-            total_archives=db.execute(text("select count(*) from raw_files where is_archived=true")).scalar()
-            total_actions=db.execute(text("select count(*) from audit_trail")).scalar()
-            biggest_file=db.execute(text("select original_name from raw_files where file_size_bytes=(select max(file_size_bytes) from raw_files where is_archived=false)")).scalar()
-            avg_logs_per_file=db.execute(text("select round(count(*)::decimal/nullif((count( distinct rf.file_id)),0),2) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.is_archived=false")).scalar()
-            avg_errors_per_file=db.execute(text("select round(count(*)::decimal/nullif((count( distinct rf.file_id)),0),2) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.is_archived=false and le.severity_id=4")).scalar()
-            top_contributor_team=db.execute(text("select t.team_name  from raw_files rf join teams t on t.team_id=rf.team_id group by t.team_name order by count(*) desc")).scalar()
-            top_contributor_user=db.execute(text("select u.username  from raw_files rf join users u on u.user_id=rf.uploaded_by group by u.username order by count(*) desc")).scalar()
+            total_users=db.execute(text(QUERIES["TOTAL_ACTIVE_USERS"])).scalar()
+            total_files=db.execute(text(QUERIES["TOTAL_FILES"])).scalar()
+            total_logs=db.execute(text(QUERIES["TOTAL_LOGS"])).scalar()
+            total_errors=db.execute(text(QUERIES["TOTAL_ERRORS"])).scalar()
+            last_file_at=db.execute(text(QUERIES["LAST_FILE_UPLOADED_AT"])).scalar()
+            total_archives=db.execute(text(QUERIES["TOTAL_ARCHIVED_FILES"])).scalar()
+            total_actions=db.execute(text(QUERIES["TOTAL_ACTIONS"])).scalar()
+            biggest_file=db.execute(text(QUERIES["BIGGEST_FILE_NAME"])).scalar()
+            avg_logs_per_file=db.execute(text(QUERIES["AVG_LOGS_PER_FILE"])).scalar()
+            avg_errors_per_file=db.execute(text(QUERIES['AVG_ERRORS_PER_FILE'])).scalar()
+            top_contributor_team=db.execute(text(QUERIES["TOP_CONTRIBUTOR_TEAM"])).scalar()
+            top_contributor_user=db.execute(text(QUERIES["TOP_CONTRIBUTOR_USER"])).scalar()
             
             ##charts
-            files_by_teams=db.execute(text("select t.team_name,count(*) as total_uploads from raw_files rf join teams t on rf.team_id=t.team_id group by t.team_name")).fetchall()
+            files_by_teams=db.execute(text(QUERIES["FILES_BY_TEAMS"])).fetchall()
             team_names = [row[0] for row in files_by_teams]
             uploads = [row[1] for row in files_by_teams]
 
-            files_by_dates=db.execute(text("select date(uploaded_at) as date,count(*) as total_files from raw_files group by date(uploaded_at) order by date(uploaded_at)")).fetchall()
+            files_by_dates=db.execute(text(QUERIES['FILES_BY_DATES'])).fetchall()
             dates = [row[0].strftime("%Y-%m-%d") for row in files_by_dates]
             date_files_count = [row[1] for row in files_by_dates]
 
             ##severity analysis.
-            slogs=db.execute(text("select ls.severity_code,count(le.log_id) as nlog from log_entries le join log_severities ls on le.severity_id=ls.severity_id group by ls.severity_code order by nlog desc")).fetchall()
+            slogs=db.execute(text(QUERIES["LOG_SEVERITY_DISTRIBUTION"])).fetchall()
             
             ##users_analytics
-            musers=db.execute(text("select u.username,count(rf.file_id) as fcount from raw_files rf join users u on rf.uploaded_by=u.user_id where uploaded_at > NOW() - INTERVAL '7 days' group by u.username having count(rf.file_id)>3;")).fetchall()
+            musers=db.execute(text(QUERIES["MOST_ACTIVE_USERS_LAST_7_DAYS"])).fetchall()
 
             #security_logs_last_week
-            seclogs=db.execute(text(
-                """
-                select le.log_id, rf.original_name, le.log_timestamp::timestamp(0) as ts,ls.severity_code, le.message_line 
-                from log_entries le 
-                join raw_files rf on le.file_id=rf.file_id 
-                join log_severities ls on le.severity_id=ls.severity_id
-                where category_id=2 and created_at > now() - interval '7 days';
-                """
-            )).fetchall()
+            seclogs=db.execute(text(QUERIES["SECURITY_LOGS_LAST_WEEK"])).fetchall()
 
             return render_template(
                 "admin_dashboard.html",
@@ -126,21 +120,18 @@ def create_app():
                 seclogs=seclogs
                 )
         
-        files_self=db.execute(text("select count(*) from raw_files where uploaded_by=:uid and is_archived=false"),{"uid": current_user.id}).scalar()
-        logs_self=db.execute(text("select count(*) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.uploaded_by=:uid and rf.is_archived=false"),{"uid": current_user.id}).scalar()
-        errors_self=db.execute(text("select count(*) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.uploaded_by=:uid and severity_id=4 and rf.is_archived=false "),{"uid": current_user.id}).scalar()
-        last_uploaded=db.execute(text("select coalesce(max(uploaded_at),'2035-01-01 00:00:00+00'::timestamptz) from raw_files where uploaded_by=:uid"),{"uid": current_user.id}).scalar()
+        files_self=db.execute(text(QUERIES["FILES_SELF"]),{"uid": current_user.id}).scalar()
+        logs_self=db.execute(text(QUERIES["LOGS_SELF"]),{"uid": current_user.id}).scalar()
+        errors_self=db.execute(text(QUERIES["ERRORS_SELF"]),{"uid": current_user.id}).scalar()
+        last_uploaded=db.execute(text(QUERIES["LAST_UPLOADED_SELF"]),{"uid": current_user.id}).scalar()
         user_team_id = db.execute(
-        text("""
-            SELECT team_id FROM user_teams
-            WHERE user_id = :uid order by joined_at desc limit 1
-        """),
+        text(QUERIES["USER_LATEST_TEAM_ID"]),
         {"uid": current_user.id}
         ).scalar()
-        files_team=db.execute(text("select count(*) from raw_files where team_id=:tid and is_archived=false"),{"tid": user_team_id}).scalar()
-        logs_team=db.execute(text("select count(*) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.team_id=:tid and rf.is_archived=false"),{"tid": user_team_id}).scalar()
-        errors_team=db.execute(text("select count(*) from log_entries le join raw_files rf on le.file_id=rf.file_id where rf.team_id=:tid and severity_id=4 and rf.is_archived=false"),{"tid": user_team_id}).scalar()
-        archives_team=db.execute(text("select count(*) from raw_files where is_archived=true and team_id=:tid"),{"tid": user_team_id}).scalar()
+        files_team=db.execute(text(QUERIES["FILES_TEAM"]),{"tid": user_team_id}).scalar()
+        logs_team=db.execute(text(QUERIES["LOGS_TEAM"]),{"tid": user_team_id}).scalar()
+        errors_team=db.execute(text(QUERIES["ERRORS_TEAM"]),{"tid": user_team_id}).scalar()
+        archives_team=db.execute(text(QUERIES["ARCHIVES_TEAM"]),{"tid": user_team_id}).scalar()
         return render_template(
             "user_dashboard.html",
             files_self=files_self,
