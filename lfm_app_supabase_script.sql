@@ -157,6 +157,9 @@ CREATE TABLE log_entries (
     created_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE UNIQUE INDEX uniq_log_entries
+ON log_entries (file_id, log_timestamp, severity_id, category_id, message_line);
+
 CREATE TABLE user_issues (
 	issue_id BIGSERIAL PRIMARY KEY,
 	user_id bigint references users(user_id) on delete cascade,
@@ -206,21 +209,63 @@ CREATE OR REPLACE FUNCTION audit_log_trigger()
 RETURNS TRIGGER AS $$
 DECLARE
     v_user_id BIGINT;
+    v_file_name TEXT;
+    v_action TEXT;
 BEGIN
+
+    -- -------------------------------------------------
+    -- Get current application user
+    -- -------------------------------------------------
     v_user_id := NULLIF(
         current_setting('app.current_user_id', true), ''
     )::BIGINT;
 
-    INSERT INTO audit_trail (user_id, action_type, action_time)
+    -- -------------------------------------------------
+    -- Table-specific metadata capture
+    -- -------------------------------------------------
+    IF TG_TABLE_NAME = 'raw_files' THEN
+
+        IF TG_OP = 'DELETE' THEN
+            v_file_name := OLD.original_name;
+        ELSE
+            v_file_name := NEW.original_name;
+        END IF;
+
+    END IF;
+
+    -- -------------------------------------------------
+    -- Build action message
+    -- -------------------------------------------------
+    IF TG_TABLE_NAME = 'raw_files' AND v_file_name IS NOT NULL THEN
+        v_action := TG_OP || ' ON ' || TG_TABLE_NAME ||
+                    ' (file=' || v_file_name || ')';
+    ELSE
+        v_action := TG_OP || ' ON ' || TG_TABLE_NAME;
+    END IF;
+
+    -- -------------------------------------------------
+    -- Insert audit record
+    -- -------------------------------------------------
+    INSERT INTO audit_trail (
+        user_id,
+        action_type,
+        action_time
+    )
     VALUES (
         v_user_id,
-        TG_OP || ' ON ' || TG_TABLE_NAME,
+        v_action,
         NOW()
     );
 
-    RETURN NEW;
+    -- -------------------------------------------------
+    -- Return correct record
+    -- -------------------------------------------------
+    RETURN COALESCE(NEW, OLD);
+
 END;
 $$ LANGUAGE plpgsql;
+
+
 
 
 CREATE TRIGGER trg_archive_files
@@ -233,6 +278,18 @@ AFTER INSERT OR UPDATE OR DELETE ON raw_files
 FOR EACH ROW
 EXECUTE FUNCTION audit_log_trigger();
 
+CREATE TRIGGER trg_audit_users
+AFTER INSERT OR UPDATE OR DELETE ON users
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+ -- --------------------------------
+ -- --------------------------------
+
+
+
+ 
 select * from users;
 select * from teams;
 select * from user_roles;
@@ -243,22 +300,8 @@ select * from raw_files;
 select * from teams;
 select * from log_severities;
 select * from user_teams;
+select * from audit_trail;
 
 
 
 
-
-
-
-
-
--- select t.team_name  from raw_files rf join teams t on t.team_id=rf.team_id group by t.team_name order by count(*) desc
--- select ls.severity_code,count(le.log_id) as nlog from log_entries le join log_severities ls on le.severity_id=ls.severity_id group by ls.severity_code order by nlog desc
-
--- select u.username,count(rf.file_id) as fcount from raw_files rf join users u on rf.uploaded_by=u.user_id where uploaded_at > NOW() - INTERVAL '7 days' group by u.username having count(rf.file_id)>3;
-
-select le.log_id, rf.original_name, le.log_timestamp::timestamp(0) as ts,ls.severity_code, le.message_line 
-from log_entries le 
-join raw_files rf on le.file_id=rf.file_id 
-join log_severities ls on le.severity_id=ls.severity_id
-where category_id=2 and created_at > now() - interval '7 days';
