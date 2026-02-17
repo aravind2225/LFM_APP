@@ -167,6 +167,7 @@ CREATE TABLE user_issues (
 	reported_at timestamptz default now()
 );
 
+alter table user_issues add column status text default 'OPEN';
 
 CREATE TABLE audit_trail (
     action_id    BIGSERIAL PRIMARY KEY,
@@ -174,6 +175,7 @@ CREATE TABLE audit_trail (
     action_type  VARCHAR(50) NOT NULL,
     action_time  TIMESTAMPTZ DEFAULT NOW()
 );
+
 
 CREATE TABLE archives (
     archive_id     BIGSERIAL PRIMARY KEY,
