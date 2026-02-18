@@ -175,6 +175,8 @@ CREATE TABLE audit_trail (
     action_type  VARCHAR(50) NOT NULL,
     action_time  TIMESTAMPTZ DEFAULT NOW()
 );
+ALTER TABLE audit_trail
+ALTER COLUMN action_type TYPE text;
 
 
 CREATE TABLE archives (
@@ -303,6 +305,8 @@ select * from teams;
 select * from log_severities;
 select * from user_teams;
 select * from audit_trail;
+
+
 
 
 

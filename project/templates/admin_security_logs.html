@@ -14,7 +14,7 @@
     <table border="1" cellpadding="6">
         <tr>
             <th>Action ID</th>
-            <th>Performed By user_id</th>
+            <th>Performed By</th>
             <th>Action Type</th>
             <th>Performed At</th>
         </tr>
@@ -22,9 +22,9 @@
         {% for audit in audits %}
         <tr>
             <td>{{ audit.action_id }}</td>
-            <td>{{ audit.user_id }}</td>
+            <td>{{ audit.username }}</td>
             <td>{{ audit.action_type }}</td>
-            <td>{{ audit.action_time }}</td>
+            <td>{{ audit.audit_time }}</td>
         </tr>
         {% endfor %}
     </table> 
