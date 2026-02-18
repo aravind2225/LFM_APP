@@ -5,6 +5,6 @@ def parse_xml(file_obj):
     for log in tree.findall("log"):
         yield {
             "timestamp": log.findtext("timestamp"),
-            "severity": log.findtext("level"),
-            "message": log.findtext("message")
+            "severity": log.findtext("level") or log.findtext("severity"),
+            "message": log.findtext("message") or log.findtext('content')
         }

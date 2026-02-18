@@ -170,7 +170,7 @@ def upload():
                 # ----------------------------
                 # Existing parsing pipeline
                 # ----------------------------
-                process_file(db, file, extension, file_id)
+                clean_entries,total_logs=process_file(db, file, extension, file_id)
 
                 success_count += 1
 
@@ -182,7 +182,7 @@ def upload():
 
     db.commit()
 
-    flash(f"{success_count} files uploaded successfully", "success")
+    flash(f"{success_count} files uploaded successfully with {len(clean_entries)}/{total_logs} logs parsed", "success")
 
     if fail_count:
         flash(f"{fail_count} files failed", "warning")

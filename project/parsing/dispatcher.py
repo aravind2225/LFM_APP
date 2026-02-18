@@ -22,8 +22,10 @@ def process_file(db, file_obj, format_name, file_id):
         raise ValueError("Unsupported format")
 
     clean_entries = []
+    total_logs=0
 
     for raw in parser(file_obj):
+        total_logs+=1
         entry = normalize_entry(raw)
         if not entry:
             continue
@@ -34,3 +36,4 @@ def process_file(db, file_obj, format_name, file_id):
     print("FINAL CLEAN ENTRIES:", len(clean_entries))  # MUST be > 0
 
     insert_log_entries(db, file_id, clean_entries)
+    return clean_entries,total_logs
