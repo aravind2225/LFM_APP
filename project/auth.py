@@ -224,34 +224,7 @@ def logout():
     flash("You are logged out", "info")
     return redirect(url_for("index"))
 
-# from flask_login import login_required, current_user, logout_user
 
-
-# @auth_bp.route("/delete-account", methods=["POST"])
-# @login_required
-# def delete_account():
-#     db = get_db()
-
-#     try:
-#         db.execute(
-#             text("""
-#                 UPDATE users
-#                 SET is_deleted = TRUE,
-#                     is_active = FALSE
-#                 WHERE user_id = :uid
-#             """),
-#             {"uid": current_user.id}
-#         )
-
-#         db.commit()
-#         logout_user()
-#         flash("Your account has been deleted.", "info")
-#         return redirect(url_for("auth.login"))
-
-#     except Exception as e:
-#         db.rollback()
-#         flash("Failed to delete account.", "danger")
-#         return redirect(url_for("dashboard"))
 
     
 
