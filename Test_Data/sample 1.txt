@@ -1,0 +1,9 @@
+2026-02-10 10:15:22 INFO AuthService User login successful user_id=42
+
+2026-02-10 10:15:22 INFO AuthService User login successful user_id=42
+[2026-02-10 10:16:10] ERROR AuthService Account locked user_id=42
+ 2026-02-10 10:20:11 , warn , SecurityService , intrusion attempt detected 
+
+2026-02-10 10:21:55 ERROR DatabaseService Connection timeout
+2026-02-10 10:21:55 error DatabaseService Connection timeout
+2026-02-10 10:22:30 FATAL System Unexpected shutdown initiated

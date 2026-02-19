@@ -1,3 +1,7 @@
+"""
+This is file is to categorize the logs based on keywords present in messages
+"""
+
 def resolve_category(message: str) -> str:
     """
     Resolve log category based on message content.
@@ -73,4 +77,3 @@ def resolve_category(message: str) -> str:
 
     # ---- DEFAULT ----
     return "UNCATEGORIZED"
-

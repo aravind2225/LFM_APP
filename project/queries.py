@@ -1,6 +1,6 @@
-
-
-##  This is the central Query File for all SQL Queries
+"""
+This is the central Query File for all SQL Queries
+"""
 
 QUERIES = {
 

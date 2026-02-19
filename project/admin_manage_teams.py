@@ -1,7 +1,10 @@
+"""
+Importing all the dependencies
+"""
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from sqlalchemy import text
-from werkzeug.security import generate_password_hash
 
 from project.db import get_db
 
@@ -11,6 +14,10 @@ admin_manage_teams_bp = Blueprint("admin_teams", __name__, url_prefix="/admin/te
 @admin_manage_teams_bp.route("/", methods=["GET"])
 @login_required
 def list_teams():
+    """
+    Docstring for list_teams
+    This method is to list all the teams in our system
+    """
     if not current_user.is_admin():
         flash("Unauthorized", "danger")
         return redirect(url_for("dashboard"))
@@ -26,6 +33,9 @@ def list_teams():
 @admin_manage_teams_bp.route("/", methods=["POST"])
 @login_required
 def add_teams():
+    """
+    Users can add new teams into the system
+    """
     if not current_user.is_admin():
         flash("Unauthorized", "danger")
         return redirect(url_for("dashboard"))
@@ -44,10 +54,3 @@ def add_teams():
 
         return redirect(url_for('admin_teams.list_teams'))
         
-
-
-
-
-
-
-    

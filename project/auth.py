@@ -1,3 +1,7 @@
+"""
+Importing all the necessary Dependencies
+"""
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required,current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +14,12 @@ auth_bp = Blueprint("auth", __name__)
 
 
 def set_audit_user(db, user_id):
+    """
+    Docstring for set_audit_user
+    
+    :param db: to communicate with db
+    :param user_id: audit that particular user_id
+    """
     db.execute(
         text("SET LOCAL app.current_user_id = :uid"),
         {"uid": user_id}
@@ -18,6 +28,9 @@ def set_audit_user(db, user_id):
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Users can register
+    """
     if request.method == "POST":
         data = request.form
         db = get_db()
@@ -29,6 +42,7 @@ def register():
 
             password_hash = generate_password_hash(data["password"])
 
+            #insert user data into users table
             result = db.execute(
                 text("""
                     INSERT INTO users (
@@ -56,7 +70,8 @@ def register():
 
 
             user_id = result.scalar()
-
+            
+            #insert user password and login creds in user_credentials table
             db.execute(
                 text("""
                     INSERT INTO user_credentials (
@@ -70,7 +85,7 @@ def register():
                 {"uid": user_id}
             )
 
-
+            #insert user role data into user_roles table
             db.execute(
                 text("""
                     INSERT INTO user_roles (user_id, role_id)
@@ -82,6 +97,7 @@ def register():
                 }
             )
 
+            #insert user team data into user_teams table
             db.execute(
                 text("""
                     INSERT INTO user_teams (user_id, team_id)
@@ -98,6 +114,7 @@ def register():
             flash("Registration successful. Please login.", "success")
             return redirect(url_for("auth.login"))
 
+        #catch the error and rolling back if any error occurs meanwhile
         except Exception as e:
             db.rollback()
             print("REGISTER ERROR:", e)
@@ -106,6 +123,9 @@ def register():
     
     db = get_db()
     team_names=db.execute(text("select team_id, team_name from teams")).fetchall()
+
+    # Returning the template register.html 
+    # and passing team names in our DB to show in team selection dropdown
     return render_template(
         "register.html",
         team_names=team_names
@@ -115,10 +135,14 @@ def register():
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Method for login
+    """
     if request.method == "POST":
         data = request.form
         db = get_db()
 
+        #fetching data of the user who tries to login
         user = db.execute(
             text("""
                 SELECT u.user_id, u.password_hash, u.is_active,
@@ -220,11 +244,11 @@ def login():
 @auth_bp.route("/logout")
 @login_required
 def logout():
+    """
+    Docstring for logout
+    The user will be logged out if this method is called
+    """
     logout_user()
     flash("You are logged out", "info")
     return redirect(url_for("index"))
-
-
-
-    
 

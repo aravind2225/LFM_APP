@@ -1,3 +1,7 @@
+"""
+This is a text parser
+"""
+
 import re
 
 TIMESTAMP_REGEX = re.compile(

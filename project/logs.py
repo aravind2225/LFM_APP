@@ -1,3 +1,7 @@
+"""
+Importing all the necessary Dependencies
+"""
+
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from sqlalchemy import text
@@ -10,6 +14,9 @@ logs_bp = Blueprint("logs", __name__, url_prefix="/logs")
 @logs_bp.route("/view", methods=["GET"])
 @login_required
 def view_logs():
+    """
+    Docstring for view_logs
+    """
     db = get_db()
 
     # ---- Filters from query params ----

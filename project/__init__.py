@@ -1,7 +1,9 @@
-from flask import Flask, render_template,session
-from flask import Flask, redirect, url_for
+"""
+Importing all the dependencies
+"""
+
+from flask import Flask, render_template,session, redirect, url_for
 from flask_login import LoginManager, current_user,login_required
-from flask_login import LoginManager
 from sqlalchemy import text
 
 from project.config import Config
@@ -56,6 +58,12 @@ def create_app():
 
     @app.route("/")
     def index():
+        """
+        Docstring for index
+        This is the starting point of application
+        If the user is not logged in, it will redirect to the landing page 
+        or else it will redirect the dashboard
+        """
         if current_user.is_authenticated:
             return redirect(url_for("dashboard"))
         # return redirect(url_for("auth.login"))
@@ -64,8 +72,16 @@ def create_app():
     @app.route("/dashboard")
     @login_required
     def dashboard():
+        """
+        Docstring for dashboard
+        This is dashboard method return two different templates
+        if the user is admin, it will return admin_dashboard.html 
+        if not , it will return end user dashboard
+        """
         db=get_db()
         if current_user.is_admin():
+            #Importing queries from queries.py file and fetching data from DB 
+            #to display in dashboard analytics
             total_users=db.execute(text(QUERIES["TOTAL_ACTIVE_USERS"])).scalar()
             total_files=db.execute(text(QUERIES["TOTAL_FILES"])).scalar()
             total_logs=db.execute(text(QUERIES["TOTAL_LOGS"])).scalar()
@@ -97,6 +113,7 @@ def create_app():
             #security_logs_last_week
             seclogs=db.execute(text(QUERIES["SECURITY_LOGS_LAST_WEEK"])).fetchall()
 
+            #returning the admin_dashboard html template
             return render_template(
                 "admin_dashboard.html",
                 total_users=total_users,
@@ -120,6 +137,7 @@ def create_app():
                 seclogs=seclogs
                 )
         
+        #This is for end_user dashboard analytics
         files_self=db.execute(text(QUERIES["FILES_SELF"]),{"uid": current_user.id}).scalar()
         logs_self=db.execute(text(QUERIES["LOGS_SELF"]),{"uid": current_user.id}).scalar()
         errors_self=db.execute(text(QUERIES["ERRORS_SELF"]),{"uid": current_user.id}).scalar()
@@ -157,10 +175,10 @@ def create_app():
             )
 
 
+    #The primary purpose is to ensure that the SQLAlchemy db_session is properly 
+    #closed and removed after each web request or when the application context ends.
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         db_session.remove()
 
     return app
-
-

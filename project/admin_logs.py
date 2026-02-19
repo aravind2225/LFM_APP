@@ -1,3 +1,7 @@
+"""
+Importing all the dependencies
+"""
+
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from sqlalchemy import text
@@ -10,6 +14,10 @@ admin_logs_bp = Blueprint("admin-logs", __name__, url_prefix="/admin-logs")
 @admin_logs_bp.route("/admin-view", methods=["GET"])
 @login_required
 def view_logs():
+    """
+    Docstring for view_logs
+    Admins can view logs uploaded by anyone
+    """
     db = get_db()
 
     # ---- Filters ----
@@ -42,6 +50,7 @@ def view_logs():
         conditions.append("e.environment_code = :env")
         params["env"] = environment
 
+    #Query to fetch the logs
     query = f"""
         SELECT
             le.log_timestamp,
@@ -71,6 +80,7 @@ def view_logs():
     categories = db.execute(text("SELECT category_name FROM log_categories")).scalars().all()
     environments = db.execute(text("SELECT environment_code FROM environments")).scalars().all()
 
+    #returning the template
     return render_template(
         "admin_view_logs.html",
         logs=logs,

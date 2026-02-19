@@ -1,9 +1,16 @@
+"""
+Importing all the necessary Dependencies
+"""
+
 from flask_login import UserMixin
 from sqlalchemy import text
 from project.db import get_db
 
 
 class AppUser(UserMixin):
+    """
+    class for Appuser to create user instance
+    """
     def __init__(self, user_id, username, role):
         self.id = user_id
         self.username = username
@@ -11,6 +18,12 @@ class AppUser(UserMixin):
 
     @staticmethod
     def get(user_id):
+        """
+        Docstring for get
+        for fetching basic details.
+        :param user_id: Id of user to fetch the basic details
+                        like user_id, username, role
+        """
         db = get_db()
         row = db.execute(
             text("""
@@ -33,5 +46,7 @@ class AppUser(UserMixin):
         )
 
     def is_admin(self):
+        """
+        Docstring for is_admin
+        """
         return self.role == "ADMIN"
-

@@ -1,3 +1,7 @@
+"""
+Importing all the necessary Dependencies
+"""
+
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from sqlalchemy import text
@@ -71,7 +75,7 @@ def create_user():
     if request.method == "POST":
         data = request.form
         password_hash = generate_password_hash(data["password"])
-
+        #admins can create a new user
         try:
             result = db.execute(text("""
                 INSERT INTO users (
@@ -94,7 +98,7 @@ def create_user():
             })
 
             user_id = result.scalar()
-
+            #inserting those user credentials
             db.execute(
                 text("""
                     INSERT INTO user_credentials (
@@ -107,7 +111,7 @@ def create_user():
                 """),
                 {"uid": user_id}
             )
-
+            #inserting into user_roles table
             db.execute(
                 text("""
                     INSERT INTO user_roles (user_id, role_id)
@@ -118,7 +122,7 @@ def create_user():
                     "rid": int(data["role_id"])
                 }
             )
-
+            #inserting into user_teams table
             db.execute(
                 text("""
                     INSERT INTO user_teams (user_id, team_id)
@@ -246,5 +250,3 @@ def edit_user(user_id):
         team_names=teams,
         current_team_id=current_team_id
     )
-
-

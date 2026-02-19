@@ -1,6 +1,18 @@
+"""
+This is a function to insert the logs into db
+"""
+
 from sqlalchemy import text
 
 def insert_log_entries(db, file_id, entries):
+    """
+    Docstring for insert_log_entries
+    insert the logs one by one into DB
+    
+    :param db: DB Instance
+    :param file_id: raw_file id
+    :param entries: list of clean logs to be inserted
+    """
     for e in entries:
         db.execute(
             text("""

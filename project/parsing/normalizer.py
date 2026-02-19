@@ -1,3 +1,8 @@
+"""
+Normalize different kind of log formats to one standard format
+and that is dictionary format
+"""
+
 import re
 from datetime import datetime, timezone
 
@@ -138,4 +143,3 @@ def normalize_entry(entry):
     # UNKNOWN TYPE
     # ============================================================
     return None
-

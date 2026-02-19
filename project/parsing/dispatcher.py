@@ -1,3 +1,7 @@
+"""
+importing all the neccessary dependencies
+"""
+
 from project.parsing.parsers.csv_parser import parse_csv
 from project.parsing.parsers.json_parser import parse_json
 from project.parsing.parsers.xml_parser import parse_xml
@@ -17,6 +21,18 @@ PARSERS = {
 }
 
 def process_file(db, file_obj, format_name, file_id):
+    """
+    Docstring for process_file
+    This method has 3 steps
+    1. Normalize the entries
+    2. Categorize the logs
+    3. Insert the logs into DB
+    
+    :param db: database instance
+    :param file_obj: input file object
+    :param format_name: file_format
+    :param file_id: id of raw_file
+    """
     parser = PARSERS.get(format_name)
     if not parser:
         raise ValueError("Unsupported format")

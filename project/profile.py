@@ -1,4 +1,8 @@
-from flask import Blueprint, render_template, request,flash,redirect,url_for
+"""
+Importing all the necessary Dependencies
+"""
+
+from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import text
 
@@ -10,6 +14,9 @@ user_view_profile_bp=Blueprint("profile", __name__, url_prefix="/profile")
 @user_view_profile_bp.route('/')
 @login_required
 def view_profile():
+    """
+    Docstring for view_profile
+    """
     db=get_db()
 
     user_team_id = db.execute(
@@ -38,9 +45,5 @@ def view_profile():
     where u.user_id=:uid
     order by ut.joined_at desc limit 1;
     """),{"uid":current_user.id}).fetchone()
-    
+
     return render_template("profile.html",user_info=user_info)
-    
-
-    
-

@@ -1,3 +1,7 @@
+"""
+Importing all the necessary Dependencies
+"""
+
 from flask import Blueprint, request, redirect, url_for, flash, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import text
@@ -12,13 +16,28 @@ ALLOWED_EXTENSIONS = {"TXT", "CSV", "JSON", "XML"}
 
 
 def allowed_file(filename: str) -> bool:
+    """
+    Docstring for allowed_file
+    to check whether the file is allowed or not
+
+    :param filename: filename as input 
+    :type filename: str
+    :return: if it allowed or not
+    :rtype: bool
+    """
     return "." in filename and filename.rsplit(".", 1)[1].upper() in ALLOWED_EXTENSIONS
 
 def calculate_checksum(file_obj, algorithm="sha256"):
+    """
+    Docstring for calculate_checksum
+    
+    :param file_obj: file that is being uploaded by user
+    :param algorithm: sha256 algorithm is used
+    """
     hash_obj = hashlib.new(algorithm)
 
     file_obj.seek(0)  # Ensure pointer at start
-    
+
     while chunk := file_obj.read(8192):
         hash_obj.update(chunk)
 
@@ -28,6 +47,9 @@ def calculate_checksum(file_obj, algorithm="sha256"):
 @files_bp.route("/upload", methods=["GET", "POST"])
 @login_required
 def upload():
+    """
+    user can upload multiple files of different formats
+    """
 
     if request.method == "GET":
         return render_template("upload.html")
@@ -35,8 +57,8 @@ def upload():
     db = get_db()
 
     files = request.files.getlist("files")
-    print("fgdf",files) 
- 
+    print("fgdf",files)
+
     if not files or files[0].filename == "":
         flash("No files selected", "danger")
         return redirect(request.url)
@@ -188,4 +210,3 @@ def upload():
         flash(f"{fail_count} files failed", "warning")
 
     return redirect(url_for("dashboard"))
-

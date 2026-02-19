@@ -1,4 +1,8 @@
-from flask import Blueprint, render_template, request,flash,redirect,url_for
+"""
+Importing all the necessary Dependencies
+"""
+
+from flask import Blueprint, render_template, request,flash
 from flask_login import login_required, current_user
 from sqlalchemy import text
 
@@ -9,6 +13,9 @@ user_report_issue_bp=Blueprint("report-issue", __name__, url_prefix="/report-iss
 @user_report_issue_bp.route('/',methods=["GET", "POST"])
 @login_required
 def report_issue():
+    """
+    Docstring for report_issue
+    """
     db=get_db()
 
     if request.method=='POST':
