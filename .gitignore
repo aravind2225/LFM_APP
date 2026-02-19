@@ -2,3 +2,4 @@
 .env
 hash_cal.py
 lfm_db_script.sql
+__pycache__
